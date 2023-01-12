@@ -1,4 +1,5 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
+const { getBrush } = require("../utils");
 
 const SHEETS = {
   PEOPLE: 0,
@@ -62,6 +63,7 @@ const getPeople = async () => {
       itch: itch ? addProtocol(itch) : null,
       blog: blog ? addProtocol(blog) : null,
       other: other ? addProtocol(other) : null,
+      brush: getBrush(),
     };
   });
 };

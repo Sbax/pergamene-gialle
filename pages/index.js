@@ -95,10 +95,7 @@ export default function Home({ people }) {
 }
 
 export async function getStaticProps() {
-  const people = (await getPeople()).map((item) => ({
-    ...item,
-    brush: getBrush(),
-  }));
+  const people = await getPeople();
 
   return {
     props: { people },
