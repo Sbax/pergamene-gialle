@@ -33,7 +33,15 @@ const serializeRow = (sheet, row) => {
   }, {});
 };
 
-const addProtocol = (url) => (url.startsWith("http") ? url : `https://${url}`);
+const addProtocol = (url) => {
+  if (!url) return url;
+  return url.includes("http") ? url : `https://${url}`;
+};
+
+const fixTelegram = (username) => {
+  if (!username) return username;
+  return username.startsWith("@") ? username : `@${username}`;
+};
 
 const getPeople = async () => {
   const people = await readSheet(SHEETS.PEOPLE);
@@ -55,14 +63,11 @@ const getPeople = async () => {
 
     return {
       name,
-      telegram: telegram
-        ? telegram.startsWith("@")
-          ? telegram
-          : `@${telegram}`
-        : null,
-      itch: itch ? addProtocol(itch) : null,
-      blog: blog ? addProtocol(blog) : null,
-      other: other ? addProtocol(other) : null,
+      telegram: fixTelegram(telegram),
+      itch: addProtocol(itch),
+      blog: addProtocol(blog),
+      other: addProtocol(other),
+      social,
       brush: getBrush(),
     };
   });

@@ -8,11 +8,13 @@ import {
 import styles from "../styles/Home.module.scss";
 import { getPeople } from "../data/sheet";
 import { brushStroke, getBrush, simplifyUrl } from "../utils";
+import { colors } from "../utils/colors";
 
-const spline = Spline_Sans_Mono({ subsets: ["latin"] });
-const coveredByYourGrace = Nanum_Pen_Script({
+const spline = Spline_Sans_Mono({ subsets: ["latin"], preload: true });
+const nanum = Nanum_Pen_Script({
   subsets: ["latin"],
   weight: "400",
+  preload: true,
 });
 
 export default function Home({ people }) {
@@ -29,65 +31,93 @@ export default function Home({ people }) {
       </Head>
       <main className={styles.main}>
         <section className={[styles.introduction, spline.className].join(" ")}>
-          <h1 className={coveredByYourGrace.className}>Pergamene Gialle</h1>
+          <h1 className={nanum.className}>Pergamene Gialle</h1>
           <p>
-            <strong style={brushStroke("#fca311", 10)}>Pergamene Gialle</strong>{" "}
+            <strong style={brushStroke(colors.primary, 10)}>
+              Pergamene Gialle
+            </strong>{" "}
             è una raccolta di autori e materiali{" "}
-            <strong style={brushStroke("#fca311", 8)}>OSR</strong> italiani,
-            puoi entrare a farne parte compilando il modulo su{" "}
+            <strong style={brushStroke(colors.primary, 8)}>OSR</strong>{" "}
+            italiani, puoi entrare a farne parte compilando il modulo su{" "}
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScg2YDB4wulcQ5wO5TVM4n-gFafK1ZNLOzYNzN-Wvu4qvU88A/viewform">
               Google Form
             </a>
             .
           </p>
           <p>
-            Raggiungici su{" "}
-            <strong style={brushStroke("#fca311", 10)}>Facebook</strong>{" "}
-            <a href="https://www.facebook.com/groups/osritalia/">OSR Italia</a>{" "}
-            o su <strong style={brushStroke("#fca311", 10)}>Telegram</strong>{" "}
-            <a href="https://t.me/osritalia">Ruling the Game</a>
+            Raggiungici su Facebook{" "}
+            <strong style={brushStroke(colors.primary_75, 10)}>
+              <a href="https://www.facebook.com/groups/osritalia/">
+                OSR Italia
+              </a>
+            </strong>{" "}
+            o su Telegram{" "}
+            <strong style={brushStroke(colors.primary_50, 10)}>
+              <a href="https://t.me/osritalia">Ruling the Game</a>
+            </strong>
           </p>
         </section>
         <section className={styles.people}>
-          {people.map(({ name, telegram, itch, blog, other, brush }) => {
-            return (
-              <article
-                key={telegram}
-                className={[spline.className, styles.article].join(" ")}
-              >
-                <h1
-                  className={[coveredByYourGrace.className, styles.name].join(
-                    " "
-                  )}
-                  style={brushStroke("#fca311", brush)}
+          {people.map(
+            ({ name, telegram, itch, blog, other, social, brush }) => {
+              return (
+                <article
+                  key={telegram}
+                  className={[spline.className, styles.article].join(" ")}
                 >
-                  {name}
-                </h1>
-                {telegram && (
-                  <h2>
-                    <a href={`https://t.me/${telegram.replace("@", "")}`}>
-                      {telegram}
-                    </a>
-                  </h2>
-                )}
-                {itch && (
-                  <p>
-                    <span>itch:</span> <a href={itch}>{simplifyUrl(itch)}</a>
-                  </p>
-                )}
-                {blog && (
-                  <p>
-                    <span>blog:</span> <a href={blog}>{simplifyUrl(blog)}</a>
-                  </p>
-                )}
-                {other && (
-                  <p>
-                    <a href={other}>altro</a>
-                  </p>
-                )}
-              </article>
-            );
-          })}
+                  <h1
+                    className={[nanum.className, styles.name].join(" ")}
+                    style={brushStroke(colors.primary, brush)}
+                  >
+                    {name}
+                  </h1>
+                  {telegram && (
+                    <h2>
+                      <a href={`https://t.me/${telegram.replace("@", "")}`}>
+                        {telegram}
+                      </a>
+                    </h2>
+                  )}
+                  {itch && (
+                    <p>
+                      <strong style={brushStroke(colors.itch, 8)}>itch:</strong>{" "}
+                      <a href={itch}>{simplifyUrl(itch)}</a>
+                    </p>
+                  )}
+                  {blog && (
+                    <p>
+                      <strong style={brushStroke(colors.primary_50, 10)}>
+                        blog:
+                      </strong>{" "}
+                      <a href={blog}>{simplifyUrl(blog)}</a>
+                    </p>
+                  )}
+
+                  {social && (
+                    <p>
+                      <strong style={brushStroke(colors.primary_75, 9)}>
+                        social:
+                      </strong>{" "}
+                      {social.startsWith("http") ? (
+                        <a href={social}>{simplifyUrl(social)}</a>
+                      ) : (
+                        social
+                      )}
+                    </p>
+                  )}
+
+                  {other && (
+                    <p>
+                      <strong style={brushStroke(colors.primary, 10)}>
+                        altro:
+                      </strong>{" "}
+                      <a href={other}>{simplifyUrl(other)}</a>
+                    </p>
+                  )}
+                </article>
+              );
+            }
+          )}
         </section>
       </main>
     </>
